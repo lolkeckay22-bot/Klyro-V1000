@@ -1,0 +1,68 @@
+# Klyro-V1000 Training Configuration
+model:
+  vocab_size: 16000
+  hidden_size: 512
+  num_hidden_layers: 8
+  num_attention_heads: 8
+  intermediate_size: 2048  # usually 4 * hidden_size
+  max_position_embeddings: 1024
+  hidden_act: "gelu"
+  layer_norm_eps: 1e-5
+  initializer_range: 0.02
+
+training:
+  batch_size: 32
+  gradient_accumulation_steps: 4
+  learning_rate: 5e-4
+  weight_decay: 0.01
+  warmup_steps: 1000
+  max_steps: 100000
+  fp16: true  # will switch to bf16 if supported
+  gradient_clip_val: 1.0
+  logging_steps: 100
+  eval_steps: 500
+  save_steps: 1000
+  seed: 42
+
+data:
+  # These are placeholders; actual dataset names will be resolved in notebook
+  english_dataset: "wikitext"
+  english_config: "wikitext-2-raw-v1"
+  russian_dataset: "facebook/oscar"
+  russian_config: "shuffled_ru"
+  # ratio of russian to english examples per batch (0.0-1.0)
+  russian_ratio: 0.5
+  streaming: true
+  max_train_samples: null  # set integer to limit for smoke test
+
+tokenizer:
+  # SentencePiece BPE
+  model_type: "bpe"
+  vocab_size: 16000
+  character_coverage: 1.0
+  split_by_number: true
+  split_by_whitespace: true
+  split_by_unicode_script: true
+  remove_extra_whitespaces: false
+  add_dummy_prefix: true
+  bos_id: 1
+  eos_id: 2
+  unk_id: 0
+  pad_id: 3
+
+huggingface:
+  repo_id: "USERNAME/Klyro-V1000"  # replace with actual
+  # token is read from environment variable HF_TOKEN, not stored here
+
+checkpoint:
+  # Whether to start from scratch or resume
+  start_from_scratch: true
+  resume_from_checkpoint: false
+  # Local directory for checkpoints (will be ignored in .gitignore)
+  local_dir: "./checkpoints"
+  # Hugging Face upload
+  push_to_hub: true
+
+misc:
+  # Enable tqdm disable flag for non-interactive environments
+  disable_tqdm: false

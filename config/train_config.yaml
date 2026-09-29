@@ -51,7 +51,7 @@ tokenizer:
   pad_id: 3
 
 huggingface:
-  repo_id: "USERNAME/Klyro-V1000"  # replace with actual
+  repo_id: "bambarbiaD123/Klyro-V1000"  # replace with actual
   # token is read from environment variable HF_TOKEN, not stored here
 
 checkpoint:
